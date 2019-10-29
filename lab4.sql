@@ -57,3 +57,61 @@ JOIN (
 ) a2
 ON a1.opknnum = a2.opknnum;
 
+-- 4
+/* Kowalski zginął w nieszczęśliwym wypadku. Zwierzęta, których był jedynym opiekunem, muszą
+mieć rzypisanego nowego opiekuna. Aby uniknąć wypadków w przyszłości, kierownictwo
+zdecydowało się każdemu "osieroconemu" zwierzęciu przypisać najbardziej doświadczonego
+opiekuna. Napisz zapytanie, które dla każdego zwierzęcia X, które było pod wyłączną opieką
+Kowalskiego, wypisuje opiekuna najstarszego stażem spośród tych, którzy już zajmują
+się jakimś zwierzęciem tego samego gatunku co X. Dla pozostałych zwierząt wypisz NULL
+*/
+
+-- Wypisz opknnum Kowalskiego
+SELECT opknnum FROM opiekunowie WHERE nazwisko = 'Kowalski';
+
+-- Wypisz zwierzeta pod opieka kowalskiego
+SELECT zwrznum, gatunek
+FROM zwierzeta z
+JOIN opieka o
+ON zwrznum = zwrztnum
+WHERE opknnum IN (SELECT opknnum FROM opiekunowie WHERE nazwisko = 'Kowalski');
+
+-- Wypisz najstarszych stazem opiekunow z gatunkiem zwierzat
+SELECT A.*, COUNT(*)
+FROM emp A
+LEFT JOIN emp B
+ON A.sal < B.sal OR A.empno = B.empno 
+GROUP BY A.empno;
+
+SELECT opknnum, gatunek
+FROM opiekunowie oe
+JOIN opieka oa
+ON oe.opknnum = oa.opknnum
+JOIN zwierzeta z
+ON z.zwrznum = oa.zwrztnum
+WHERE oe.nazwisko != 'Kowalski';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
